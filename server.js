@@ -6,7 +6,7 @@ const cors = require("cors");
 const path = require("path");
 
 // Import routes
-
+const recipes = require("./routes/recipe");
 const app = express();
 
 app.use(cors());
@@ -17,7 +17,7 @@ app.use(express.json());
 // Comment
 // development
 const URL = process.env.MONGO_URL;
-const VERSION = 'v.1.0.0'//process.env.VERSION;
+const VERSION = process.env.VERSION;
 const PORT = process.env.PORT;
 
 // Config options to pass in mongoose.connect() method
@@ -27,8 +27,8 @@ const options = {
 };
 
 // Routes
-//app.use("/uploads" , express.static(path.join(__dirname, "uploads")))
-//app.use("/blog" , blogs);
+app.use("/uploads" , express.static(path.join(__dirname, "uploads")));
+app.use("/recipe" , recipes);
 
 // home route
 app.get("/", (req, res) => {
@@ -41,13 +41,13 @@ app.get("/", (req, res) => {
 
 // Error handling route
 app.all("*", (req, res) => {
-    res.status(404).send("Error 404!. Page not found!");
+    res.status(404).json({code: 404, message: 'Error 404! Route not found!'});
 })
 
 // mongodb connection
 mongoose.connect( URL, options ).then((result) => {
     app.listen(PORT , (req , res) => {
-        console.log(`Server has started successfully on port : ${PORT}`);
+        console.log(`Server has started successfully on port: ${PORT}`);
     })
 })
 .catch((err) => {
