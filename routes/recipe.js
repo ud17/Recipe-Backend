@@ -29,20 +29,20 @@ router.get("/get-all-recipes",
     }
 )
 
-// path - /recipe/:recipe_id
+// path - /recipe/get-recipe/:recipe_id
 // GET
 router.get("/get-recipe/:recipe_id",
 
     async( req, res, next) => {
-        const blogId = req.params.blog_id;
+        const recipeId = req.params.recipe_id;
 
-        const response = await RecipeController.getBlogById(blogId);
+        const response = await RecipeController.getRecipeById(recipeId);
 
-         // send database error is exists
-         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
-         
-         // send success response otherwise
-         else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_FOUND, response.blog);
+        // send database error is exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+        
+        // send success response otherwise
+        else if(response.recipe) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_FOUND, response.recipe);
     }
 )
 

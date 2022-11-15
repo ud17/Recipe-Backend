@@ -19,7 +19,7 @@ const getAllRecipes = async () => {
 }
 
 // get recipe by id
-const getrecipeById = async (recipe_id) => {
+const getRecipeById = async (recipe_id) => {
 
     let recipe, result = {};
 
@@ -28,7 +28,7 @@ const getrecipeById = async (recipe_id) => {
     }
 
     // get recipe by Id db call
-    recipe = await RecipeHelper.getAllrecipes(query);
+    recipe = await RecipeHelper.getAllRecipes(query);
 
     if(recipe.databaseError) {
         result.databaseError = true;
@@ -180,7 +180,7 @@ const deleterecipe = async (recipe_id) => {
 
 module.exports = {
     getAllRecipes,
-    getrecipeById,
+    getRecipeById,
     createNewRecipe,
     updaterecipe,
     deleterecipe,
