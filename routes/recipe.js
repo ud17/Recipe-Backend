@@ -15,17 +15,17 @@ const router = express.Router();
 
 // path - /recipe/get-all-recipes
 // GET
-router.get("/get-all-recipes" ,
+router.get("/get-all-recipes",
 
     async(req , res, next) => {
 
-        const response = await RecipeController.getAllBlogs();
+        const response = await RecipeController.getAllRecipes();
 
         // send database error is exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response
-        else if(response.blogs) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_ALL_BLOGS_FOUND, response.blogs);
+        else if(response.recipes) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_ALL_RECIPES_FOUND, response.recipes);
     }
 )
 

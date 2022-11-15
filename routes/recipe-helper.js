@@ -1,20 +1,20 @@
 const { removeImageFileUsingPath } = require("../middleware/check-file");
 const Recipe = require("../model/Recipe");
 
-// get all blogs
-const getAllBlogs = async (query) => {
+// get all recipes
+const getAllRecipes = async (query) => {
 
-    let blog, result = {}
+    let recipe, result = {}
 
     try {
-        blog = await Blog.find(query);
+        recipe = await Recipe.find(query);
     } catch(err) {
-        console.log(err);
+        console.log(`getAllRecipes: ${err}`);
         result.databaseError = true;
         return result;
     }
 
-    result.blogs = blog;
+    result.recipes = recipe;
     return result;
 }
 
@@ -35,13 +35,13 @@ const createNewRecipe = async (query) => {
     return result;
 }
 
-// increment blog views
-const incrementBlogViewByOne = async (query) => {
+// increment recipe views
+const incrementrecipeViewByOne = async (query) => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
     try {
-        blog = await Blog.findOneAndUpdate(query, 
+        recipe = await recipe.findOneAndUpdate(query, 
             { $inc: {
                 views : 1
             }},
@@ -55,17 +55,17 @@ const incrementBlogViewByOne = async (query) => {
         return result;
     }
 
-    result.blog = blog;
+    result.recipe = recipe;
     return result;
 }
 
-// get latest blogs
-const getLatestBlogs = async (query, limit) => {
+// get latest recipes
+const getLatestrecipes = async (query, limit) => {
 
     let latest, result = {};
 
     try {
-        latest = await Blog.find(query).sort({"createdAt": -1}).limit(limit);
+        latest = await recipe.find(query).sort({"createdAt": -1}).limit(limit);
 
     } catch (err) {
         console.log(err);
@@ -77,12 +77,12 @@ const getLatestBlogs = async (query, limit) => {
     return result;
 }
 
-// get most viewed blogs
-const getMostViewedBlogs = async (query, limit) => {
+// get most viewed recipes
+const getMostViewedrecipes = async (query, limit) => {
     let mostViewed, result = {};
 
     try {
-        mostViewed = await Blog.find(query).sort({"views" : -1}).limit(limit);
+        mostViewed = await recipe.find(query).sort({"views" : -1}).limit(limit);
 
     } catch (err) {
         console.log(err);
@@ -94,24 +94,24 @@ const getMostViewedBlogs = async (query, limit) => {
     return result;
 }
 
-// update blog
-const updateBlog = async (query, data) => {
+// update recipe
+const updaterecipe = async (query, data) => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
     try {
-        blog = await Blog.findOne(query);
+        recipe = await recipe.findOne(query);
 
-        let previous_image = blog.image;
+        let previous_image = recipe.image;
 
         let newData = {
-            title: data.title ? data.title : blog.title,
-            description: data.description ? data.description : blog.description,
-            location: data.location ? data.location : blog.location,
-            image: data.file ? data.file.path : blog.image
+            title: data.title ? data.title : recipe.title,
+            description: data.description ? data.description : recipe.description,
+            location: data.location ? data.location : recipe.location,
+            image: data.file ? data.file.path : recipe.image
         }
 
-        blog = await Blog.findByIdAndUpdate(query, newData, { new: true});
+        recipe = await recipe.findByIdAndUpdate(query, newData, { new: true});
 
         if(data.file) removeImageFileUsingPath(previous_image);
     } catch (err) {
@@ -120,31 +120,31 @@ const updateBlog = async (query, data) => {
         return result;
     }
 
-    if(!blog) {
+    if(!recipe) {
         result.databaseError = true;
         return result;
     }
 
-    result.blog = blog;
+    result.recipe = recipe;
     return result;
 }
 
-// delete a blog
-const deleteBlog = async (query) => {
+// delete a recipe
+const deleterecipe = async (query) => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
     try {
-        blog = await Blog.findById(query);
+        recipe = await recipe.findById(query);
 
-        if(!blog) {
-            result.blogNotFound = true;
+        if(!recipe) {
+            result.recipeNotFound = true;
             return result;
         }
 
-        // remove blog as well as img
-        const img = blog.image;
-        await blog.remove();
+        // remove recipe as well as img
+        const img = recipe.image;
+        await recipe.remove();
         await removeImageFileUsingPath(img);
     } catch (err) {
         console.log(err);
@@ -152,16 +152,16 @@ const deleteBlog = async (query) => {
         return result;
     }
 
-    result.blogDeleted = true;
+    result.recipeDeleted = true;
     return result;
 }
 
 module.exports = {
-    getAllBlogs,
+    getAllRecipes,
     createNewRecipe,
-    updateBlog,
-    deleteBlog,
-    incrementBlogViewByOne,
-    getLatestBlogs,
-    getMostViewedBlogs
+    updaterecipe,
+    deleterecipe,
+    incrementrecipeViewByOne,
+    getLatestrecipes,
+    getMostViewedrecipes
 }

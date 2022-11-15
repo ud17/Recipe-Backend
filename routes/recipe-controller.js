@@ -1,53 +1,53 @@
 const { ObjectId } = require('mongodb');
 const RecipeHelper = require("./recipe-helper.js");
 
-// get all blogs
-const getAllBlogs = async () => {
+// get all recipes
+const getAllRecipes = async () => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
-    // get all blogs
-    blog = await RecipeHelper.getAllBlogs({});
+    // get all recipes
+    recipe = await RecipeHelper.getAllRecipes({});
     
-    if(blog.databaseError) {
+    if(recipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.blogs = blog;
+    result.recipes = recipe;
     return result;
 }
 
-// get blog by id
-const getBlogById = async (blog_id) => {
+// get recipe by id
+const getrecipeById = async (recipe_id) => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
     let query = {
-        _id: blog_id
+        _id: recipe_id
     }
 
-    // get blog by Id db call
-    blog = await RecipeHelper.getAllBlogs(query);
+    // get recipe by Id db call
+    recipe = await RecipeHelper.getAllrecipes(query);
 
-    if(blog.databaseError) {
+    if(recipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.blog = blog.blogs[0];
+    result.recipe = recipe.recipes[0];
     return result;
 }
 
-// get latest blogs
-const getLatestBlogs = async () => {
+// get latest recipes
+const getLatestrecipes = async () => {
 
     let latest, result = {};
-    // show 10 blogs at a time
-    const BLOG_LIMIT = 10;
+    // show 10 recipes at a time
+    const recipe_LIMIT = 10;
 
-    // get latest blogs
-    latest = await RecipeHelper.getLatestBlogs({}, BLOG_LIMIT);
+    // get latest recipes
+    latest = await RecipeHelper.getLatestrecipes({}, recipe_LIMIT);
 
     if(latest.databaseError) {
         result.databaseError = true;
@@ -59,15 +59,15 @@ const getLatestBlogs = async () => {
     return result;
 }
 
-// get most viewed blogs
-const getMostViewedBlogs = async () => {
+// get most viewed recipes
+const getMostViewedrecipes = async () => {
 
     let mostViewed, result = {};
-    // show 10 blogs at a time
-    const BLOG_LIMIT = 10;
+    // show 10 recipes at a time
+    const recipe_LIMIT = 10;
 
-    // get latest blogs
-    mostViewed = await RecipeHelper.getMostViewedBlogs({}, BLOG_LIMIT);
+    // get latest recipes
+    mostViewed = await RecipeHelper.getMostViewedrecipes({}, recipe_LIMIT);
 
     if(mostViewed.databaseError) {
         result.databaseError = true;
@@ -105,34 +105,34 @@ const createNewRecipe = async (req) => {
     return result;
 }
 
-// increment blog views
-const incrementBlogViewByOne = async (blog_id) => {
+// increment recipe views
+const incrementrecipeViewByOne = async (recipe_id) => {
 
-    let blog, result = {};
+    let recipe, result = {};
 
     let query = {
-        _id: blog_id 
+        _id: recipe_id 
     };
 
-    // increment blog views method
-    blog = await RecipeHelper.incrementBlogViewByOne(query);
+    // increment recipe views method
+    recipe = await RecipeHelper.incrementrecipeViewByOne(query);
 
-    if(blog.databaseError) {
+    if(recipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.blog = blog;
+    result.recipe = recipe;
     return result;
 }
 
-// update blog details
-const updateBlog = async (blog_id, req) => {
+// update recipe details
+const updaterecipe = async (recipe_id, req) => {
 
-    let updatedBlog, result = {};
+    let updatedrecipe, result = {};
 
     let query = {
-        _id: ObjectId(blog_id)
+        _id: ObjectId(recipe_id)
     }
 
     let newData = {
@@ -142,49 +142,49 @@ const updateBlog = async (blog_id, req) => {
         file: req.file
     };
 
-    updatedBlog = await RecipeHelper.updateBlog(query, newData);
+    updatedrecipe = await RecipeHelper.updaterecipe(query, newData);
 
-    if(updatedBlog.databaseError) {
+    if(updatedrecipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.blog = updatedBlog.blog;
+    result.recipe = updatedrecipe.recipe;
     return result;
 }
 
 
-// delete a blog
-const deleteBlog = async (blog_id) => {
+// delete a recipe
+const deleterecipe = async (recipe_id) => {
 
-    let blog, result = {};
+    let recipe, result = {};
     let query = {
-        _id: ObjectId(blog_id)
+        _id: ObjectId(recipe_id)
     }
 
-    // method call to delete a blog
-    blog = await RecipeHelper.deleteBlog(query);
+    // method call to delete a recipe
+    recipe = await RecipeHelper.deleterecipe(query);
 
-    if(blog.databaseError) {
+    if(recipe.databaseError) {
         result.databaseError = true;
         return result;
     } 
-    else if (blog.blogNotFound) {
-        result.blogNotFound = true;
+    else if (recipe.recipeNotFound) {
+        result.recipeNotFound = true;
         return result;
     }
 
-    result.blogDeleted = blog.blogDeleted;
+    result.recipeDeleted = recipe.recipeDeleted;
     return result;
 }
 
 module.exports = {
-    getAllBlogs,
-    getBlogById,
+    getAllRecipes,
+    getrecipeById,
     createNewRecipe,
-    updateBlog,
-    deleteBlog,
-    incrementBlogViewByOne,
-    getLatestBlogs,
-    getMostViewedBlogs
+    updaterecipe,
+    deleterecipe,
+    incrementrecipeViewByOne,
+    getLatestrecipes,
+    getMostViewedrecipes
 }
