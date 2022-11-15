@@ -21,7 +21,7 @@ router.get("/get-all-recipes",
 
         const response = await RecipeController.getAllRecipes();
 
-        // send database error is exists
+        // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response
@@ -38,7 +38,7 @@ router.get("/get-recipe/:recipe_id",
 
         const response = await RecipeController.getRecipeById(recipeId);
 
-        // send database error is exists
+        // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
         
         // send success response otherwise
@@ -54,7 +54,7 @@ router.get("/get-latest-recipes",
 
         const response = await RecipeController.getLatestRecipes();
 
-        // send database error is exists
+        // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response otherwise
@@ -62,19 +62,19 @@ router.get("/get-latest-recipes",
     }
 )
 
-// path - /blog/get-most-viewed-blogs
+// path - /recipes/get-most-viewed-recipes
 // GET
-router.get("/get-most-viewed-blogs",
+router.get("/get-most-viewed-recipes",
 
     async (req, res, next) => {
 
-        const response = await RecipeController.getMostViewedBlogs();
+        const response = await RecipeController.getMostViewedRecipes();
 
-        // send database error is exists
+        // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response otherwise
-        else if(response.most_viewed) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_MOST_VIEWED_BLOGS_FOUND, response.most_viewed);
+        else if(response.most_viewed_recipes) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_MOST_VIEWED_RECIPES_FOUND, response.most_viewed_recipes);
     }
 )
 

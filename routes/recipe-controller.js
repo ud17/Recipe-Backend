@@ -60,21 +60,21 @@ const getLatestRecipes = async () => {
 }
 
 // get most viewed recipes
-const getMostViewedrecipes = async () => {
+const getMostViewedRecipes = async () => {
 
-    let mostViewed, result = {};
+    let most_viewed_recipes, result = {};
     // show 10 recipes at a time
-    const recipe_LIMIT = 10;
+    const RECIPE_LIMIT = 10;
 
     // get latest recipes
-    mostViewed = await RecipeHelper.getMostViewedrecipes({}, recipe_LIMIT);
+    most_viewed_recipes = await RecipeHelper.getMostViewedRecipes({}, RECIPE_LIMIT);
 
-    if(mostViewed.databaseError) {
+    if(most_viewed_recipes.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.most_viewed = mostViewed.most_viewed;
+    result.most_viewed_recipes = most_viewed_recipes.most_viewed;
     return result;
 }
 
@@ -186,5 +186,5 @@ module.exports = {
     deleterecipe,
     incrementrecipeViewByOne,
     getLatestRecipes,
-    getMostViewedrecipes
+    getMostViewedRecipes
 }

@@ -78,14 +78,14 @@ const getLatestRecipes = async (query, limit) => {
 }
 
 // get most viewed recipes
-const getMostViewedrecipes = async (query, limit) => {
+const getMostViewedRecipes = async (query, limit) => {
     let mostViewed, result = {};
 
     try {
-        mostViewed = await recipe.find(query).sort({"views" : -1}).limit(limit);
+        mostViewed = await Recipe.find(query).sort({"views" : -1}).limit(limit);
 
     } catch (err) {
-        console.log(err);
+        console.log(`getMostViewedRecipes: ${err}`);
         result.databaseError = true;
         return result;
     }
@@ -163,5 +163,5 @@ module.exports = {
     deleterecipe,
     incrementrecipeViewByOne,
     getLatestRecipes,
-    getMostViewedrecipes
+    getMostViewedRecipes
 }
