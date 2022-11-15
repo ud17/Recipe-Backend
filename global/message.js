@@ -23,5 +23,6 @@ module.exports = {
     SUCCESS_MOST_VIEWED_RECIPES_FOUND: "Most Viewed Recipe have been found successfully.",
     SUCCESS_RECIPE_DETAILS_UPDATED: "Recipe details have been updated successfully.",
     SUCCESS_RECIPE_DELETED: "Recipe has been deleted successfully.",
-    SUCCESS_RECIPE_FOUND: "Recipe found successfully."
+    SUCCESS_RECIPE_FOUND: "Recipe found successfully.",
+    SUCCESS_RECIPE_VIEW_INCREMENTED: "Recipe view has been incremented successfully."
 }

@@ -138,18 +138,18 @@ router.post("/create-recipe",
     }
 )
 
-// path - /blog/increment-blog-view/:blog_id
+// path - /recipe/increment-recipe-view/:recipe_id
 // PATCH
-router.patch("/increment-blog-view/:blog_id",
+router.patch("/increment-recipe-view/:recipe_id",
 
     [
-        param("blog_id").isMongoId().withMessage( ResponseMessage.INVALID_BLOG_ID )
+        param("recipe_id").isMongoId().withMessage( ResponseMessage.INVALID_RECIPE_ID )
     ],
 
     async (req, res, next) => {
 
         // check if params are valid
-        const errors = validationResult(req)
+        const errors = validationResult(req);
 
         if(!errors.isEmpty()) {
 
@@ -159,16 +159,16 @@ router.patch("/increment-blog-view/:blog_id",
             })));            
         }
 
-        const blog_id = req.params.blog_id;
+        const recipe_id = req.params.recipe_id;
 
-        // method to increment blog view
-        const response = await RecipeController.incrementBlogViewByOne(blog_id);
+        // method to increment recipe view
+        const response = await RecipeController.incrementRecipeViewByOne(recipe_id);
 
         // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response
-        else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_VIEW_INCREMENTED, response.blog);
+        else if(response.recipe) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_VIEW_INCREMENTED, response.recipe);
     }
 )
 

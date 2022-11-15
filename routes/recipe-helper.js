@@ -36,21 +36,23 @@ const createNewRecipe = async (query) => {
 }
 
 // increment recipe views
-const incrementrecipeViewByOne = async (query) => {
+const incrementRecipeViewByOne = async (query) => {
 
     let recipe, result = {};
 
     try {
-        recipe = await recipe.findOneAndUpdate(query, 
-            { $inc: {
-                views : 1
-            }},
+        recipe = await Recipe.findOneAndUpdate(query, 
+            { 
+                $inc: {
+                    views : 1
+                }
+            },
             {
                 returnOriginal: false
             }
         );
     } catch (err) {
-        console.log(err);
+        console.log(`incrementRecipeViewByOne: ${err}`);
         result.databaseError = true;
         return result;
     }
@@ -162,7 +164,7 @@ module.exports = {
     createNewRecipe,
     updateRecipe,
     deleterecipe,
-    incrementrecipeViewByOne,
+    incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes
 }

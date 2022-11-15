@@ -106,7 +106,7 @@ const createNewRecipe = async (req) => {
 }
 
 // increment recipe views
-const incrementrecipeViewByOne = async (recipe_id) => {
+const incrementRecipeViewByOne = async (recipe_id) => {
 
     let recipe, result = {};
 
@@ -115,7 +115,7 @@ const incrementrecipeViewByOne = async (recipe_id) => {
     };
 
     // increment recipe views method
-    recipe = await RecipeHelper.incrementrecipeViewByOne(query);
+    recipe = await RecipeHelper.incrementRecipeViewByOne(query);
 
     if(recipe.databaseError) {
         result.databaseError = true;
@@ -177,7 +177,7 @@ module.exports = {
     createNewRecipe,
     updateRecipe,
     deleterecipe,
-    incrementrecipeViewByOne,
+    incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes
 }
