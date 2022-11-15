@@ -127,29 +127,22 @@ const incrementrecipeViewByOne = async (recipe_id) => {
 }
 
 // update recipe details
-const updaterecipe = async (recipe_id, req) => {
+const updateRecipe = async (recipe_id, req) => {
 
-    let updatedrecipe, result = {};
+    let updated_recipe, result = {};
 
     let query = {
         _id: ObjectId(recipe_id)
     }
 
-    let newData = {
-        title: req.body.title,
-        description: req.body.description,
-        location: req.body.location,
-        file: req.file
-    };
+    updated_recipe = await RecipeHelper.updateRecipe(query, req);
 
-    updatedrecipe = await RecipeHelper.updaterecipe(query, newData);
-
-    if(updatedrecipe.databaseError) {
+    if(updated_recipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.recipe = updatedrecipe.recipe;
+    result.recipe = updated_recipe.recipe;
     return result;
 }
 
@@ -182,7 +175,7 @@ module.exports = {
     getAllRecipes,
     getRecipeById,
     createNewRecipe,
-    updaterecipe,
+    updateRecipe,
     deleterecipe,
     incrementrecipeViewByOne,
     getLatestRecipes,

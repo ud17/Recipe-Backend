@@ -172,17 +172,18 @@ router.patch("/increment-blog-view/:blog_id",
     }
 )
 
-// path - /blog/update-blog/:blog_id
+// path - /recipe/update-recipe/:recipe_id
 // PATCH
-router.patch("/update-blog/:blog_id",
+router.patch("/update-recipe/:recipe_id",
 
     // file upload middleware
     FileUpload.single("image"),
 
     [
-        body("title").isLength(CONSTANT.BLOG_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE_LENGTH ).optional(),
-        body("description").isLength(CONSTANT.BLOG_DESCRIPTION_LENGTH).withMessage( ResponseMessage.ERROR_DESCRIPTION_LENGTH ).optional(),
-        body("location").notEmpty().withMessage( ResponseMessage.ERROR_LOCATION ).optional()
+        body("title").optional().isLength(CONSTANT.RECIPE_TITLE_LENGTH).withMessage( ResponseMessage.ERROR_TITLE_LENGTH ),
+        body("category").optional().notEmpty().withMessage( ResponseMessage.ERROR_RECIPE_CATEGORY ),
+        body("instructions").optional().isArray().notEmpty().withMessage( ResponseMessage.ERROR_INSTRUCTIONS_EMPTY ),
+        body("ingredients").optional().isArray().notEmpty().withMessage( ResponseMessage.ERROR_INGREDIENTS_EMPTY ),
     ],
 
     async ( req, res, next) => {
@@ -200,10 +201,10 @@ router.patch("/update-blog/:blog_id",
             })));            
         }
 
-        const blog_id = req.params.blog_id;
+        const recipe_id = req.params.recipe_id;
 
-        // method call to update blog
-        const response = await RecipeController.updateBlog(blog_id, req);
+        // method call to update recipe
+        const response = await RecipeController.updateRecipe(recipe_id, req);
 
         // send database error if exist
         if(response.databaseError) {
@@ -214,7 +215,7 @@ router.patch("/update-blog/:blog_id",
         }
 
         // send success response otherwise
-        else if(response.blog) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_DETAILS_UPDATED, response.blog );
+        else if(response.recipe) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_DETAILS_UPDATED, response.recipe );
     }
 )
 

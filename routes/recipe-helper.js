@@ -95,27 +95,28 @@ const getMostViewedRecipes = async (query, limit) => {
 }
 
 // update recipe
-const updaterecipe = async (query, data) => {
+const updateRecipe = async (query, req) => {
 
     let recipe, result = {};
 
     try {
-        recipe = await recipe.findOne(query);
+        recipe = await Recipe.findOne(query);
 
         let previous_image = recipe.image;
 
         let newData = {
-            title: data.title ? data.title : recipe.title,
-            description: data.description ? data.description : recipe.description,
-            location: data.location ? data.location : recipe.location,
-            image: data.file ? data.file.path : recipe.image
+            title: req.body.title ? req.body.title : recipe.title,
+            category: req.body.category ? req.body.category : recipe.category,
+            instructions: req.body.instructions ? req.body.instructions : recipe.instructions,
+            ingredients: req.body.ingredients ? req.body.ingredients : recipe.ingredients,
+            image: req.file ? req.file.path : recipe.image
         }
 
-        recipe = await recipe.findByIdAndUpdate(query, newData, { new: true});
+        recipe = await Recipe.findByIdAndUpdate(query, newData, { new: true});
 
-        if(data.file) removeImageFileUsingPath(previous_image);
+        if(req.file) removeImageFileUsingPath(previous_image);
     } catch (err) {
-        console.log(err);
+        console.log(`updateRecipe: ${err}`);
         result.databaseError = true;
         return result;
     }
@@ -159,7 +160,7 @@ const deleterecipe = async (query) => {
 module.exports = {
     getAllRecipes,
     createNewRecipe,
-    updaterecipe,
+    updateRecipe,
     deleterecipe,
     incrementrecipeViewByOne,
     getLatestRecipes,
