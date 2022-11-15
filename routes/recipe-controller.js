@@ -40,21 +40,21 @@ const getRecipeById = async (recipe_id) => {
 }
 
 // get latest recipes
-const getLatestrecipes = async () => {
+const getLatestRecipes = async () => {
 
     let latest, result = {};
     // show 10 recipes at a time
     const recipe_LIMIT = 10;
 
     // get latest recipes
-    latest = await RecipeHelper.getLatestrecipes({}, recipe_LIMIT);
+    latest = await RecipeHelper.getLatestRecipes({}, recipe_LIMIT);
 
     if(latest.databaseError) {
         result.databaseError = true;
         return result;
     }
 
-    result.latest = latest.latest;
+    result.latest_recipes = latest.latest_recipes;
     // result.most_viewed = mostViewed.most_viewed;
     return result;
 }
@@ -185,6 +185,6 @@ module.exports = {
     updaterecipe,
     deleterecipe,
     incrementrecipeViewByOne,
-    getLatestrecipes,
+    getLatestRecipes,
     getMostViewedrecipes
 }

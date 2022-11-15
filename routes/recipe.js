@@ -46,19 +46,19 @@ router.get("/get-recipe/:recipe_id",
     }
 )
 
-// path - /blog/get-latest-recipes
+// path - /recipes/get-latest-recipes
 // GET
 router.get("/get-latest-recipes", 
 
     async (req, res, next) => {
 
-        const response = await RecipeController.getLatestBlogs();
+        const response = await RecipeController.getLatestRecipes();
 
         // send database error is exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
         // send success response otherwise
-        else if(response.latest) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_LATEST_BLOGS_FOUND, response.latest);
+        else if(response.latest_recipes) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_LATEST_RECIPES_FOUND, response.latest_recipes);
     }
 )
 

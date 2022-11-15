@@ -60,20 +60,20 @@ const incrementrecipeViewByOne = async (query) => {
 }
 
 // get latest recipes
-const getLatestrecipes = async (query, limit) => {
+const getLatestRecipes = async (query, limit) => {
 
-    let latest, result = {};
+    let latest_recipes, result = {};
 
     try {
-        latest = await recipe.find(query).sort({"createdAt": -1}).limit(limit);
+        latest_recipes = await Recipe.find(query).sort({"createdAt": -1}).limit(limit);
 
     } catch (err) {
-        console.log(err);
+        console.log(`getLatestRecipes: ${err}`);
         result.databaseError = true;
         return result;
     }
 
-    result.latest = latest;
+    result.latest_recipes = latest_recipes;
     return result;
 }
 
@@ -162,6 +162,6 @@ module.exports = {
     updaterecipe,
     deleterecipe,
     incrementrecipeViewByOne,
-    getLatestrecipes,
+    getLatestRecipes,
     getMostViewedrecipes
 }
