@@ -133,12 +133,12 @@ const updateRecipe = async (query, req) => {
 }
 
 // delete a recipe
-const deleterecipe = async (query) => {
+const deleteRecipe = async (query) => {
 
     let recipe, result = {};
 
     try {
-        recipe = await recipe.findById(query);
+        recipe = await Recipe.findById(query);
 
         if(!recipe) {
             result.recipeNotFound = true;
@@ -150,7 +150,7 @@ const deleterecipe = async (query) => {
         await recipe.remove();
         await removeImageFileUsingPath(img);
     } catch (err) {
-        console.log(err);
+        console.log(`deleteRecipe ${err}`);
         result.databaseError = true;
         return result;
     }
@@ -163,7 +163,7 @@ module.exports = {
     getAllRecipes,
     createNewRecipe,
     updateRecipe,
-    deleterecipe,
+    deleteRecipe,
     incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes

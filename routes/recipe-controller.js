@@ -148,7 +148,7 @@ const updateRecipe = async (recipe_id, req) => {
 
 
 // delete a recipe
-const deleterecipe = async (recipe_id) => {
+const deleteRecipe = async (recipe_id) => {
 
     let recipe, result = {};
     let query = {
@@ -156,7 +156,7 @@ const deleterecipe = async (recipe_id) => {
     }
 
     // method call to delete a recipe
-    recipe = await RecipeHelper.deleterecipe(query);
+    recipe = await RecipeHelper.deleteRecipe(query);
 
     if(recipe.databaseError) {
         result.databaseError = true;
@@ -176,7 +176,7 @@ module.exports = {
     getRecipeById,
     createNewRecipe,
     updateRecipe,
-    deleterecipe,
+    deleteRecipe,
     incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes

@@ -220,12 +220,12 @@ router.patch("/update-recipe/:recipe_id",
 )
 
 
-// path - /blog/delete-blog/:blog_id
+// path - /recipe/delete-recipe/:recipe_id
 // DELETE
-router.delete("/delete-blog/:blog_id",
+router.delete("/delete-recipe/:recipe_id",
 
     [
-        param("blog_id").notEmpty().withMessage(ResponseMessage.ERROR_BLOG_ID_EMPTY)
+        param("recipe_id").notEmpty().withMessage(ResponseMessage.INVALID_RECIPE_ID)
     ],
 
     async( req, res, next) => {
@@ -242,18 +242,18 @@ router.delete("/delete-blog/:blog_id",
             })));            
         }
 
-        const blog_id = req.params.blog_id;
+        const recipe_id = req.params.recipe_id;
 
-        const response = await RecipeController.deleteBlog(blog_id);
+        const response = await RecipeController.deleteRecipe(recipe_id);
 
         // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
-        // send error if blog not found
-        else if(response.blogNotFound) return Response.error( res, ResponseCode.NOT_FOUND, ResponseMessage.ERROR_BLOG_NOT_FOUND);
+        // send error if recipe not found
+        else if(response.recipeNotFound) return Response.error( res, ResponseCode.NOT_FOUND, ResponseMessage.ERROR_RECIPE_NOT_FOUND);
 
         // send success response otherwise
-        else if(response.blogDeleted) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_BLOG_DELETED);
+        else if(response.recipeDeleted) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_DELETED);
     }
 )
 
