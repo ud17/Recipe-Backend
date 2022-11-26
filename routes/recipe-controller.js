@@ -79,20 +79,23 @@ const getMostViewedRecipes = async () => {
 }
 
 // get recipe by category
-const getRecipeByCategory = async (type) => {
+const getRecipeByCategory = async (type, currentPage) => {
     let recipe, result = {};
 
     let query = {
         category: type
     };
 
-    recipe = await RecipeHelper.getRecipeByCategory(query);
+    recipe = await RecipeHelper.getRecipeByCategory(query, currentPage);
 
     if(recipe.databaseError) {
         result.databaseError = true;
         return result;
     }
 
+    result.count = recipe.count;
+    result.currentPage = currentPage;
+    result.totalCount = recipe.totalCount;
     result.recipe_details = recipe.recipe_details;
     return result;
 }

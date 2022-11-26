@@ -19,18 +19,22 @@ const getAllRecipes = async (query) => {
 }
 
 // get recipe by category
-const getRecipeByCategory = async (query) => {
+const getRecipeByCategory = async (query, currentPage) => {
 
-    let recipe, result = {};
+    let recipe, totalCount, result = {};
+    const PER_PAGE = 10;
 
     try {
-        recipe = await Recipe.find(query);
+        recipe = await Recipe.find(query).skip((currentPage - 1)*PER_PAGE).limit(PER_PAGE);
+        totalCount = await Recipe.countDocuments();
     } catch(err) {
         console.log(`getRecipeByCategory -> ${err}`);
         result.databaseError = true;
         return result;
     }
 
+    result.count = recipe.length;
+    result.totalCount = totalCount;
     result.recipe_details = recipe;
     return result;
 }

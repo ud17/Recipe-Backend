@@ -220,7 +220,7 @@ router.patch("/update-recipe/:recipe_id",
 )
 
 // path - /recipe/get-by-category/:type
-router.get("/get-by-category/:type",
+router.get("/get-by-category/:type/:current_page",
 
     [
         param("type").notEmpty().withMessage(ResponseMessage.ERROR_RECIPE_CATEGORY)
@@ -238,13 +238,15 @@ router.get("/get-by-category/:type",
         }
 
         const type = req.params.type;
+        const currentPage = req.params.current_page;
 
-        const response = await RecipeController.getRecipeByCategory(type);
+        const response = await RecipeController.getRecipeByCategory(type, currentPage);
 
         // send database error if exists
         if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
 
-        else if(response.recipe_details) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_FOUND, response.recipe_details);
+        // send success response otherwise
+        else if(response.recipe_details) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_FOUND, response);
     }
 )
 
