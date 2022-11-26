@@ -18,6 +18,23 @@ const getAllRecipes = async (query) => {
     return result;
 }
 
+// get recipe by category
+const getRecipeByCategory = async (query) => {
+
+    let recipe, result = {};
+
+    try {
+        recipe = await Recipe.find(query);
+    } catch(err) {
+        console.log(`getRecipeByCategory -> ${err}`);
+        result.databaseError = true;
+        return result;
+    }
+
+    result.recipe_details = recipe;
+    return result;
+}
+
 // create new recipe
 const createNewRecipe = async (query) => {
 
@@ -166,5 +183,6 @@ module.exports = {
     deleteRecipe,
     incrementRecipeViewByOne,
     getLatestRecipes,
-    getMostViewedRecipes
+    getMostViewedRecipes,
+    getRecipeByCategory
 }

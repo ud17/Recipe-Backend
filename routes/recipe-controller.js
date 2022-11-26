@@ -78,6 +78,25 @@ const getMostViewedRecipes = async () => {
     return result;
 }
 
+// get recipe by category
+const getRecipeByCategory = async (type) => {
+    let recipe, result = {};
+
+    let query = {
+        category: type
+    };
+
+    recipe = await RecipeHelper.getRecipeByCategory(query);
+
+    if(recipe.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.recipe_details = recipe.recipe_details;
+    return result;
+}
+
 // create new recipe
 const createNewRecipe = async (req) => {
 
@@ -179,5 +198,6 @@ module.exports = {
     deleteRecipe,
     incrementRecipeViewByOne,
     getLatestRecipes,
-    getMostViewedRecipes
+    getMostViewedRecipes,
+    getRecipeByCategory
 }

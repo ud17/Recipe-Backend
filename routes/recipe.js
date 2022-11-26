@@ -219,6 +219,34 @@ router.patch("/update-recipe/:recipe_id",
     }
 )
 
+// path - /recipe/get-by-category/:type
+router.get("/get-by-category/:type",
+
+    [
+        param("type").notEmpty().withMessage(ResponseMessage.ERROR_RECIPE_CATEGORY)
+    ],
+    async(req, res, next) => {
+        // check if params are valid
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+
+            return Response.error(res , ResponseCode.BAD_REQUEST , errors.array().map((error) => ({
+                field: error.param,
+                errorMessage: error.msg
+            })));            
+        }
+
+        const type = req.params.type;
+
+        const response = await RecipeController.getRecipeByCategory(type);
+
+        // send database error if exists
+        if(response.databaseError) return Response.error( res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        else if(response.recipe_details) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_FOUND, response.recipe_details);
+    }
+)
 
 // path - /recipe/delete-recipe/:recipe_id
 // DELETE
