@@ -26,7 +26,7 @@ const getRecipeByCategory = async (query, currentPage) => {
 
     try {
         recipe = await Recipe.find(query).skip((currentPage - 1)*PER_PAGE).limit(PER_PAGE);
-        totalCount = await Recipe.countDocuments();
+        totalCount = Math.ceil((await Recipe.find(query)).length/10);
     } catch(err) {
         console.log(`getRecipeByCategory -> ${err}`);
         result.databaseError = true;
