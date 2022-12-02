@@ -223,7 +223,8 @@ router.patch("/update-recipe/:recipe_id",
 router.get("/get-by-category/:type/:current_page",
 
     [
-        param("type").notEmpty().withMessage(ResponseMessage.ERROR_RECIPE_CATEGORY)
+        param("type").notEmpty().withMessage(ResponseMessage.ERROR_RECIPE_CATEGORY),
+        param("current_page").notEmpty().withMessage(ResponseMessage.ERROR_CURRENT_PAGE)
     ],
     async(req, res, next) => {
         // check if params are valid
@@ -247,6 +248,38 @@ router.get("/get-by-category/:type/:current_page",
 
         // send success response otherwise
         else if(response.recipe_details) return Response.success( res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_RECIPE_FOUND, response);
+    }
+)
+
+// path - /recipe/search/:recipe
+router.get("/search/:recipe/:page",
+    [
+        param("recipe").notEmpty().withMessage(ResponseMessage.ERROR_RECIPE_TERM),
+        param("page").notEmpty().withMessage(ResponseMessage.ERROR_CURRENT_PAGE)
+    ],
+
+    async (req, res, next) => {
+        // check if params are valid
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()) {
+
+            return Response.error(res , ResponseCode.BAD_REQUEST , errors.array().map((error) => ({
+                field: error.param,
+                errorMessage: error.msg
+            })));            
+        }
+
+        const term = req.params.recipe;
+        const page = req.params.page;
+
+        const response = await RecipeController.lookupRecipe(term, page);
+
+        // send database error if exists
+        if(response.databaseError) return Response.error(res, ResponseCode.DATABASE_ERROR, ResponseMessage.ERROR_DATABASE);
+
+        // send success response otherwises
+        else if(response.recipes) return Response.success(res, ResponseCode.SUCCESS, ResponseMessage.SUCCESS_ALL_RECIPES_FOUND, response);
     }
 )
 

@@ -117,6 +117,23 @@ const getMostViewedRecipes = async (query, limit) => {
     return result;
 }
 
+// find all reicpes by title
+const lookupRecipesByTitle = async (query, page) => {
+    let recipes, result = {};
+    const LIMIT = 10;
+
+    try {
+        recipes = await Recipe.find(query).skip((page-1) * LIMIT).limit(LIMIT);
+    } catch (err) {
+        console.log(`lookupRecipesByTitle -> ${err}`)
+        result.databaseError = true;
+        return result;
+    }
+
+    result.recipes = recipes;
+    return result;
+}
+
 // update recipe
 const updateRecipe = async (query, req) => {
 
@@ -188,5 +205,6 @@ module.exports = {
     incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes,
-    getRecipeByCategory
+    getRecipeByCategory,
+    lookupRecipesByTitle
 }

@@ -11,6 +11,8 @@ module.exports = {
     ERROR_RECIPE_CATEGORY: "Recipe category cannot be empty",
     ERROR_RECIPE_ID_EMPTY: "Recipe id is empty or not found.",
     ERROR_RECIPE_NOT_FOUND: "Recipe not found with given id.",
+    ERROR_RECIPE_TERM: "Recipe search param cannot be empty.",
+    ERROR_CURRENT_PAGE: "Current page cannot be empty",
     
     INVALID_IMAGE_MIMETYPE: "Invalid image file mimetype.",
     INVALID_RECIPE_ID: "Recipe id invalid.",

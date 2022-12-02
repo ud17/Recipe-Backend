@@ -148,6 +148,30 @@ const incrementRecipeViewByOne = async (recipe_id) => {
     return result;
 }
 
+// lookup recipe
+const lookupRecipe = async (term, page) => {
+    let result = {};
+
+    let query = {
+        title: {
+            $regex: term,
+            $options: 'i'
+        }
+    };
+
+    const recipes = await RecipeHelper.lookupRecipesByTitle(query, page);
+
+    if(recipes.databaseError) {
+        result.databaseError = true;
+        return result;
+    }
+
+    result.currentPage = page;
+    result.totalCount = recipes.recipes.length;
+    result.recipes = recipes.recipes;
+    return result;
+}
+
 // update recipe details
 const updateRecipe = async (recipe_id, req) => {
 
@@ -202,5 +226,6 @@ module.exports = {
     incrementRecipeViewByOne,
     getLatestRecipes,
     getMostViewedRecipes,
-    getRecipeByCategory
+    getRecipeByCategory,
+    lookupRecipe
 }
