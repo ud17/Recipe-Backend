@@ -167,7 +167,8 @@ const lookupRecipe = async (term, page) => {
     }
 
     result.currentPage = page;
-    result.totalCount = recipes.recipes.length;
+    result.totalCount = recipes.totalCount;
+    result.count = recipes.count;
     result.recipes = recipes.recipes;
     return result;
 }

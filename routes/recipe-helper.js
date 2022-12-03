@@ -119,11 +119,12 @@ const getMostViewedRecipes = async (query, limit) => {
 
 // find all reicpes by title
 const lookupRecipesByTitle = async (query, page) => {
-    let recipes, result = {};
+    let recipes, totalCount, result = {};
     const LIMIT = 10;
 
     try {
         recipes = await Recipe.find(query).skip((page-1) * LIMIT).limit(LIMIT);
+        totalCount = Math.ceil((await Recipe.find(query)).length/10);
     } catch (err) {
         console.log(`lookupRecipesByTitle -> ${err}`)
         result.databaseError = true;
@@ -131,6 +132,8 @@ const lookupRecipesByTitle = async (query, page) => {
     }
 
     result.recipes = recipes;
+    result.count = recipes.length;
+    result.totalCount = totalCount;
     return result;
 }
 
