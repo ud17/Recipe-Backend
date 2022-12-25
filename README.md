@@ -1,3 +1,3 @@
 # Recipe App Backend
 
-# [Recipe App Frontend](https://github.com/ud17/blog_website_frontend)
+# [Recipe App Frontend](https://github.com/ud17/recipe_frontend)
